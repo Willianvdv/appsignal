@@ -42,6 +42,8 @@ module Appsignal
   end
 end
 
-if ::Capistrano::Configuration.instance
-  Appsignal::Integrations::Capistrano.tasks(::Capistrano::Configuration.instance)
+
+if Capistrano.const_defined?(:Configuration) &&
+    Capistrano::Configuration.methods.map(&:to_sym).include?(:instance)
+  Appsignal::Integrations::Capistrano.tasks ::Capistrano::Configuration.instance
 end
